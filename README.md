@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # rand-bg-api
 NestJS API 
 =======
