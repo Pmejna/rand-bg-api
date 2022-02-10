@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { User } from './user/models/user.entity';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,11 +17,12 @@ import { UserModule } from './user/user.module';
       password: 'dev',
       database: 'rand_bg_api',
       entities: [
-        User
+
       ],
       autoLoadEntities: true,
       synchronize: true,
-  })
+  }),
+    AuthModule
 ,],
   controllers: [
     AppController,

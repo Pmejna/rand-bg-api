@@ -1,11 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import UserInterface, { UserType } from "src/interfaces/user.interface";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity()
-export class User {
+@Entity('users')
+export class User implements UserInterface {
     @PrimaryGeneratedColumn()
     user_id: number;
 
-    @Column('uuid')
+    @PrimaryGeneratedColumn('uuid')
     user_uuid: string;
 
     @Column()
@@ -14,7 +15,11 @@ export class User {
     @Column()
     user_last_name: string;
 
-    @Column()
+    @Column({
+        default: null,
+        nullable: true,
+        length: 200
+    })
     user_username: string;
 
     @Column()
@@ -23,9 +28,14 @@ export class User {
     @Column()
     user_password: string;
 
-    @Column('datetime')
+    @Column({
+        default: UserType.user
+    })
+    user_type: UserType;
+
+    @CreateDateColumn({type: 'datetime'})
     user_created_datetime: Date;
 
-    @Column('datetime')
+    @UpdateDateColumn({type: 'datetime'})
     user_last_login_datetime: Date;
 }
