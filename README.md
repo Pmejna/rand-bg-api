@@ -1,4 +1,4 @@
-# rand-bg-api
+# Rand.bg API/Backend based on NestJS and MySQL with docker for dev environment
 NestJS API 
 =======
 <p align="center">
