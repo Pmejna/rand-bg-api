@@ -1,10 +1,9 @@
 # Rand.bg API/Backend based on NestJS and MySQL with docker for dev environment
-NestJS API 
 =======
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
 </p>
-
+=======
 ## About the project
 API/Backend of my upcoming app targeted at the creation of a generative backgrounds, and eventually generative NFT-s;
 
