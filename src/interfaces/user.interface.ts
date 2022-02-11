@@ -1,10 +1,10 @@
-export const enum UserType {
+export enum UserType {
     admin = 'admin',
     user = 'user',
     premiumUser = 'premiumUser'
 }
 
-export default interface UserInterface {
+export interface UserInterface {
     user_id: number;
     user_uuid: string;
     user_first_name: string;
@@ -16,3 +16,6 @@ export default interface UserInterface {
     user_last_login_datetime: Date;
     user_type: UserType;
 }
+
+export type GetOneUser = UserInterface;
+export type UserTypeEnum = UserType;
