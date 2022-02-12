@@ -1,22 +1,27 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, NotFoundException, Post, Req, Res } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
+import {Request, Response} from 'express';
 import { RegisterDto } from './models/register.dto';
 
 @Controller()
 export class AuthController {
-    constructor(private userService: UserService) {
+    constructor(
+        private userService: UserService,
+        private jwtService: JwtService
+        ) {
         
     }
 
     @Post('register')
     async register(@Body()body: RegisterDto) {
 
-        if (await this.userService.checkIsEmailTaken(body.user_email)) {
+        if (await this.userService.findOne({where: {user_email: body.user_email}})) {
             throw new BadRequestException('This Email Address is already Taken');
         }
 
-        if (await this.userService.checkIsUsernameTaken(body.user_username)) {
+        if (await this.userService.findUsername(body.user_username)) {
             throw new BadRequestException('This Username is already Taken');
         }
 
@@ -27,5 +32,36 @@ export class AuthController {
         const hashedPassword = await bcrypt.hash(body.user_password, 12);
 
         return this.userService.create(body, hashedPassword);
+    }
+
+    @Post('login')
+    async login(
+        @Body('user_email')email: string,
+        @Body('user_password')password: string,
+        @Res({passthrough: true})response: Response
+        ) {
+            const user = await this.userService.findOne({where: {user_email: email}});
+
+            if (!user) {
+                throw new NotFoundException('User not found');
+            }
+
+            if (!await bcrypt.compare(password, user.user_password)) {
+                throw new BadRequestException('Incorrect Password')
+            }
+
+            const jwt = await this.jwtService.signAsync({user_id: user.user_id});
+
+            response.cookie('jwt', jwt, {httpOnly: true});
+
+            return user;
+        }
+
+    @Get('user')
+    async user(@Req()request: Request) {
+        const cookie = request.cookies['jwt'];
+        const data = await this.jwtService.verifyAsync(cookie);
+
+        return this.userService.findOne({where: {user_id: data.user_id}})
     }
 }

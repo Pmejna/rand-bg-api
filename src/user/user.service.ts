@@ -28,13 +28,13 @@ export class UserService {
         );
     }
 
-    async checkIsEmailTaken(email): Promise<User> {
-        return await this.userRepository.findOne({where: {user_email: email}});
-    }
-
-    async checkIsUsernameTaken(username): Promise<User> {
+    async findUsername(username): Promise<User> {
         if (null !== username) {
             return await this.userRepository.findOne({where: {user_username: username}});
         }
+    }
+
+    async findOne(condition): Promise<User> {
+        return this.userRepository.findOne(condition);
     }
 }
