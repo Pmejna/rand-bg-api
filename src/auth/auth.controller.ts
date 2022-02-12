@@ -10,20 +10,22 @@ export class AuthController {
     }
 
     @Post('register')
-    async register(@Body()body: RegisterDto) 
-    {
-        if (body.user_password !== body.user_password_confirm) {
-            throw new BadRequestException('Password and Confirmation Password need to match')
-        }
-        const hashedPass = await bcrypt.hash(body.user_password, 12);
-        const username = body.user_username ? body.user_username : null;
+    async register(@Body()body: RegisterDto) {
 
-        return this.userService.create({
-            user_first_name: body.user_first_name,
-            user_last_name: body.user_last_name,
-            user_email: body.user_email,
-            user_username: username,
-            user_password: hashedPass
-        });
+        if (await this.userService.checkIsEmailTaken(body.user_email)) {
+            throw new BadRequestException('This Email Address is already Taken');
+        }
+
+        if (await this.userService.checkIsUsernameTaken(body.user_username)) {
+            throw new BadRequestException('This Username is already Taken');
+        }
+
+        if (body.user_password !== body.user_password_confirm) {
+            throw new BadRequestException('Password and Confirmation Password need to match');
+        }
+        
+        const hashedPassword = await bcrypt.hash(body.user_password, 12);
+
+        return this.userService.create(body, hashedPassword);
     }
 }

@@ -14,7 +14,27 @@ export class UserService {
         return await this.userRepository.find();
     }
 
-    async create(register_data): Promise<User> {
-        return this.userRepository.save(register_data);
+    async create(register_data, hashedPassword: string): Promise<User> {
+        const username = register_data.user_username ? register_data.user_username : null;
+
+        return this.userRepository.save(
+            {
+                user_first_name: register_data.user_first_name,
+                user_last_name: register_data.user_last_name,
+                user_email: register_data.user_email,
+                user_username: username,
+                user_password: hashedPassword
+            }
+        );
+    }
+
+    async checkIsEmailTaken(email): Promise<User> {
+        return await this.userRepository.findOne({where: {user_email: email}});
+    }
+
+    async checkIsUsernameTaken(username): Promise<User> {
+        if (null !== username) {
+            return await this.userRepository.findOne({where: {user_username: username}});
+        }
     }
 }
