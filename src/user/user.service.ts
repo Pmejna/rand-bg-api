@@ -13,7 +13,7 @@ export class UserService {
     async all(): Promise<User[]> {
         return await this.userRepository.find();
     }
-
+    
     async create(register_data, hashedPassword: string): Promise<User> {
         const username = register_data.user_username ? register_data.user_username : null;
 
