@@ -7,5 +7,5 @@ export class SectionCreateDto {
     @IsNotEmpty()
     slug: string;
 
-    parent_id?: string | null; 
+    parent_id?: string | null;
 }

@@ -14,11 +14,19 @@ export class SectionService {
         return await this.sectionRepository.find()
     }
 
+    async findOne(condition): Promise<Section> {
+        return this.sectionRepository.findOne(condition);
+    }
+
     async create(data): Promise<Section> {
         return this.sectionRepository.save({
             section_name: data.name,
             section_slug: data.slug,
             section_parent_id: data.parent_id 
         })
+    }
+
+    async updateSection(id, data): Promise<any> {
+        return this.sectionRepository.update(id, data);
     }
 }
