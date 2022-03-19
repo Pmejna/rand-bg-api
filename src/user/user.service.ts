@@ -37,4 +37,12 @@ export class UserService {
     async findOne(condition): Promise<User> {
         return this.userRepository.findOne(condition);
     }
+
+    async updateUser(uuid: string, data): Promise<any> {
+        return this.userRepository.update(uuid, data);
+    }
+
+    async deleteUser(user_uuid: string): Promise<any> {
+        return this.userRepository.delete(user_uuid);
+    }
 }

@@ -4,8 +4,6 @@ import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateCol
 
 @Entity('users')
 export class User implements UserInterface {
-    @PrimaryGeneratedColumn()
-    user_id: number;
 
     @PrimaryGeneratedColumn('uuid')
     user_uuid: string;

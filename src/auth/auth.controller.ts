@@ -52,7 +52,7 @@ export class AuthController {
                 throw new BadRequestException('Incorrect Password')
             }
 
-            const jwt = await this.jwtService.signAsync({user_id: user.user_id});
+            const jwt = await this.jwtService.signAsync({user_uuid: user.user_uuid});
 
             response.cookie('jwt', jwt, {httpOnly: true});
 
@@ -64,7 +64,7 @@ export class AuthController {
         const cookie = request.cookies['jwt'];
         const data = await this.jwtService.verifyAsync(cookie);
 
-        return this.userService.findOne({where: {user_id: data.user_id}})
+        return this.userService.findOne({where: {user_uuid: data.user_uuid}})
     }
 
     @UseGuards(AuthGuard)

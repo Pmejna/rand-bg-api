@@ -17,7 +17,7 @@ export const enum BackgroundAlgorithm {
 
 export default interface BackgroundInterface {
     background_id: number;
-    background_user_id: number;
+    background_user_uuid: string;
     background_user_category_id: number;
     background_name: string;
     background_type: BackgroundType;

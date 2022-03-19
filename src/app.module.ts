@@ -5,9 +5,12 @@ import { AppService } from './app.service';
 import { User } from './user/models/user.entity';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { CommonModule } from './common/common.module';
+import { SectionModule } from './section/section.module';
 
 @Module({
   imports: [
+    CommonModule,
     UserModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
@@ -22,7 +25,9 @@ import { AuthModule } from './auth/auth.module';
       autoLoadEntities: true,
       synchronize: true,
   }),
-    AuthModule
+    AuthModule,
+    CommonModule,
+    SectionModule
 ,],
   controllers: [
     AppController,
