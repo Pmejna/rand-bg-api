@@ -1,10 +1,9 @@
+import { Exclude } from 'class-transformer';
 import {UserInterface, UserType, UserTypeEnum} from "src/interfaces/user.interface";
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('users')
 export class User implements UserInterface {
-    @PrimaryGeneratedColumn()
-    user_id: number;
 
     @PrimaryGeneratedColumn('uuid')
     user_uuid: string;
@@ -26,6 +25,7 @@ export class User implements UserInterface {
     user_email: string;
 
     @Column()
+    @Exclude()
     user_password: string;
 
     @Column({

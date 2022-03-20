@@ -13,8 +13,36 @@ export class UserService {
     async all(): Promise<User[]> {
         return await this.userRepository.find();
     }
+    
+    async create(register_data, hashedPassword: string): Promise<User> {
+        const username = register_data.user_username ? register_data.user_username : null;
 
-    async create(register_data): Promise<User> {
-        return this.userRepository.save(register_data);
+        return this.userRepository.save(
+            {
+                user_first_name: register_data.user_first_name,
+                user_last_name: register_data.user_last_name,
+                user_email: register_data.user_email,
+                user_username: username,
+                user_password: hashedPassword
+            }
+        );
+    }
+
+    async findUsername(username): Promise<User> {
+        if (null !== username) {
+            return await this.userRepository.findOne({where: {user_username: username}});
+        }
+    }
+
+    async findOne(condition): Promise<User> {
+        return this.userRepository.findOne(condition);
+    }
+
+    async updateUser(uuid: string, data): Promise<any> {
+        return this.userRepository.update(uuid, data);
+    }
+
+    async deleteUser(user_uuid: string): Promise<any> {
+        return this.userRepository.delete(user_uuid);
     }
 }

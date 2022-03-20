@@ -7,6 +7,6 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    return "You arrived to the rand.bg API v1.0";
   }
 }

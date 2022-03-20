@@ -5,7 +5,6 @@ export enum UserType {
 }
 
 export interface UserInterface {
-    user_id: number;
     user_uuid: string;
     user_first_name: string;
     user_last_name: string;
